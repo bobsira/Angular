@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms'
 import { ProductListComponent } from './products/product-list.component';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -10,7 +12,8 @@ import { ProductListComponent } from './products/product-list.component';
     ProductListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   bootstrap: [AppComponent]
 })
