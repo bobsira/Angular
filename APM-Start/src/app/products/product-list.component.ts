@@ -7,11 +7,12 @@ import { ProductService } from './product.service';
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit {
     pageTitle: string = 'Product List';
     imageWidth: number = 50;
     imageMargin: number = 2;
     showImage: boolean = false;
+    errorMessage: string;
 
     _listFilter: string;
     get listFilter(): string {
@@ -25,12 +26,10 @@ export class ProductListComponent implements OnInit{
     filteredProducts: IProduct[];
     products: IProduct[] = [];
 
-    constructor(private productService: ProductService){
-        // this.listFilter = 'cart';
-    }
+    constructor(private productService: ProductService) {}
 
     onRatingClicked(message: string): void {
-        this.pageTitle = 'Product List :'+ message;
+        this.pageTitle = 'Product List :' + message;
     }
 
     performFilter(filterBy: string): IProduct[] {
@@ -42,8 +41,13 @@ export class ProductListComponent implements OnInit{
     toggleImage() : void {
         this.showImage = !this.showImage;
     }
-    ngOnInit(): void{
-        this.products = this.productService.getProducts();
-        this.filteredProducts = this.products;
+    ngOnInit(): void {
+        this.productService.getProducts().subscribe({
+            next: products => {
+                this.products = products;
+                this.filteredProducts = this.products;
+            },
+            error: err => this.errorMessage = err
+        });
     }
 }
